@@ -1,7 +1,9 @@
 package cn.tju.seagraph;
 
 import cn.tju.seagraph.dao.dataMapper;
+import cn.tju.seagraph.dao.paperMapper;
 import cn.tju.seagraph.daomain.data;
+import cn.tju.seagraph.daomain.paperMysqlBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class SeagraphApplicationTests {
 
     @Autowired
     dataMapper dataMapper;
+    @Autowired
+    paperMapper paperMapper;
     @Test
     public void contextLoads() {
     }
@@ -30,11 +34,38 @@ public class SeagraphApplicationTests {
         System.out.println(data.getCount());
         data.setCount(91);
         int k = dataMapper.updateData(data);
-        List<data> list2 = dataMapper.getDataById(2);
+        List<data> list2 = dataMapper.getDataById(5);
         System.out.println(list2.get(0).getCount());
         int j = dataMapper.deleteById(2);
         List<data> list3 = dataMapper.getDataList();
         System.out.println(list3.size());
+
+    }
+
+    @Test
+    public void testPaper(){
+        paperMysqlBean paperMysqlBean = paperMapper.getDataById("2f03e746ea3611e9a3d800d861171bd5");
+        System.out.println(paperMysqlBean.toString());
+        System.out.println("测试list");
+        List<paperMysqlBean> list = paperMapper.getDataList();
+        for(paperMysqlBean each:list){
+            System.out.println("*******");
+            System.out.println(each.toString());
+        }
+        paperMysqlBean t1 = new paperMysqlBean();
+        t1.setUuid("1245422");
+
+        System.out.println("测试delete");
+        paperMapper.deleteById("12454");
+
+        System.out.println("测试insert");
+        System.out.println(t1.toString());
+        paperMapper.insertData(t1);
+
+        System.out.println("测试update");
+        t1.setAbs("wedswerwerf");
+        paperMapper.updateData(t1);
+
 
     }
 }
